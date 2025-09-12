@@ -1,5 +1,9 @@
 # ComfyUI-Yolo-World-EfficientSAM
 
+Forked from https://huggingface.co/camenduru/YoloWorld-EfficientSAM/tree/main to make some tweaks for my setup. Orig README below:
+
+---
+
 ## Info
 ComfyUI Yolo World EfficientSAM custom node,Based on [ZHO-ZHO-ZHO/ComfyUI-YoloWorld-EfficientSAM](https://github.com/ZHO-ZHO-ZHO/ComfyUI-YoloWorld-EfficientSAM), modifications have been made and dependencies have been updated to newer versions.
 
