@@ -1,0 +1,16 @@
+[project]
+name = "comfyui-yolo-world-efficientsam"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "huggingface-hub[hf-transfer]>=0.34.4",
+    "opencv-contrib-python>=4.12.0.88",
+    "supervision>=0.26.1",
+    "ultralytics>=8.3.199",
+]
+
+[dependency-groups]
+dev = [
+    "comfy-cli>=1.5.1",
+    "torch>=2.8.0",
+]
