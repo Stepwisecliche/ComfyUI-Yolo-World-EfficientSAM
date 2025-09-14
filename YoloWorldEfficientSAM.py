@@ -228,10 +228,15 @@ class YoloWorldEfficientSAM:
         categories = process_categories(categories)
         processed_images = []
         processed_masks = []
+
+        model = yolo_world_model
+        model.to(DEVICE)
+        model.set_classes(categories)
+
         for img in image:
             img = np.clip(255.0 * img.cpu().numpy().squeeze(), 0, 255).astype(np.uint8)
-            model = yolo_world_model
-            model.set_classes(categories)  # Ultralytics prompt/vocabulary
+
+            # Ultralytics prompt/vocabulary
             # results = model.infer(img,text=categories, confidence=confidence_threshold,iou_threshold=iou_threshold,class_agnostic_nms=with_class_agnostic_nms)
             results = model.predict(
                 img,
