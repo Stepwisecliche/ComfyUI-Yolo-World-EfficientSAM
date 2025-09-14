@@ -12,6 +12,7 @@ from .utils.efficient_sam import inference_with_boxes
 
 from folder_paths import models_dir  # type: ignore # noqa: F401
 
+
 # ultralytics models available per https://docs.ultralytics.com/models/yolo-world/#available-models-supported-tasks-and-operating-modes
 ULY_YOLOWORLD_WEIGHTS = [
     "yolov8s-world.pt",
@@ -26,6 +27,8 @@ ULY_YOLOWORLD_WEIGHTS = [
 
 YOLOWORLD_MODEL_PATH = os.path.join(models_dir, "ultralytics/yoloworld")
 EFFICIENT_SAM_MODEL_PATH = os.path.join(models_dir, "esam")
+os.makedirs(YOLOWORLD_MODEL_PATH, exist_ok=True)
+os.makedirs(EFFICIENT_SAM_MODEL_PATH, exist_ok=True)
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BOUNDING_BOX_ANNOTATOR = (
@@ -127,7 +130,7 @@ class EfficientSAMModelLoader:
 
         # filenames follow a pattern so we can branch to build it depending on options
         # a selector would be cleaner, but I'm tryin somethin ok
-        filename = "efficient_sam_"
+        filename = "efficientsam_"
 
         if tiny:
             filename += "tiny_"
