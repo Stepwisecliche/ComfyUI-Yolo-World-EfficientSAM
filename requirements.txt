@@ -2,3 +2,4 @@ huggingface-hub[hf-transfer]
 opencv-contrib-python
 supervision>=0.26.0
 ultralytics>=8.2.0
+git+https://github.com/openai/CLIP.git

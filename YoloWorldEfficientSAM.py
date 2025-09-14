@@ -147,7 +147,6 @@ class EfficientSAMModelLoader:
                 repo_id=repo,
                 filename=filename,
                 local_dir=EFFICIENT_SAM_MODEL_PATH,
-                local_dir_use_symlinks=False,
             )
         model_path = os.path.join(EFFICIENT_SAM_MODEL_PATH, filename)
 
