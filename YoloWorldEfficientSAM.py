@@ -10,7 +10,7 @@ from huggingface_hub import hf_hub_download
 from ultralytics import YOLOWorld
 from .utils.efficient_sam import inference_with_boxes
 
-from folder_paths import folder_names_and_paths  # type: ignore # noqa: F401
+from folder_paths import models_dir  # type: ignore # noqa: F401
 
 # ultralytics models available per https://docs.ultralytics.com/models/yolo-world/#available-models-supported-tasks-and-operating-modes
 ULY_YOLOWORLD_WEIGHTS = [
@@ -24,10 +24,8 @@ ULY_YOLOWORLD_WEIGHTS = [
     "yolov8x-worldv2.pt",
 ]
 
-YOLOWORLD_MODEL_PATH = os.path.join(
-    folder_names_and_paths["models"], "ultralytics/yoloworld"
-)
-EFFICIENT_SAM_MODEL_PATH = os.path.join(folder_names_and_paths["models"], "esam")
+YOLOWORLD_MODEL_PATH = os.path.join(models_dir, "ultralytics/yoloworld")
+EFFICIENT_SAM_MODEL_PATH = os.path.join(models_dir, "esam")
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BOUNDING_BOX_ANNOTATOR = (
