@@ -36,7 +36,7 @@ BOUNDING_BOX_ANNOTATOR = (
 )  # renamed from BoundingBoxAnnotator to BoxAnnotator in v0.26.0
 MASK_ANNOTATOR = sv.MaskAnnotator()
 LABEL_ANNOTATOR = sv.LabelAnnotator()
-DEFAULT_CATEGORIES = ""
+default_categories = ""
 
 
 # Helpers to list local weights in YOLOWORLD_MODEL_PATH and merge with the hub list
@@ -103,6 +103,8 @@ class YoloWorldModelLoader:
         # we can pass filepath to ULY's YOLOWorld class so we can
         # either download from the hub or load local weights.
         model = YOLOWorld(yolo_world_model)
+        global default_categories
+        default_categories = ",".join(model.model.names.values())
         return [model]
 
 
@@ -227,15 +229,16 @@ class YoloWorldEfficientSAM:
         mask_extracted,
         mask_extracted_index,
     ):
+        if not categories.strip():
+            global default_categories
+            categories = default_categories
         categories = process_categories(categories)
         processed_images = []
         processed_masks = []
 
         model = yolo_world_model
         model.to(DEVICE)
-        cats = categories.strip()
-        if cats:
-            model.set_classes(cats)
+        model.set_classes(categories)
 
         for img in image:
             img = np.clip(255.0 * img.cpu().numpy().squeeze(), 0, 255).astype(np.uint8)
