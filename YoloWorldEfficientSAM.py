@@ -5,6 +5,7 @@ import supervision as sv
 from typing import List
 from PIL import Image
 import torch
+from huggingface_hub import hf_hub_download
 
 from ultralytics import YOLOWorld
 from .utils.efficient_sam import inference_with_boxes
@@ -26,6 +27,7 @@ ULY_YOLOWORLD_WEIGHTS = [
 YOLOWORLD_MODEL_PATH = os.path.join(
     folder_names_and_paths["models"], "ultralytics/yoloworld"
 )
+EFFICIENT_SAM_MODEL_PATH = os.path.join(folder_names_and_paths["models"], "esam")
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BOUNDING_BOX_ANNOTATOR = (
@@ -110,6 +112,7 @@ class EfficientSAMModelLoader:
         return {
             "required": {
                 "device": (["CUDA", "CPU"],),
+                "tiny": ("BOOLEAN", {"default": False}),
             },
         }
 
@@ -120,15 +123,32 @@ class EfficientSAMModelLoader:
 
     CATEGORY = "YoloWorldEfficientSAM"
 
-    def load_efficient_sam_model(self, device):
-        if device == "CUDA":
-            model_path = os.path.join(
-                CURRENT_DIRECTORY, "models", "efficient_sam_s_gpu.jit"
-            )
+    def load_efficient_sam_model(self, device, tiny):
+        # should find a plan b in this repo vanishes or something changes
+        repo = "yunyangx/EfficientSAM"
+
+        # filenames follow a pattern so we can branch to build it depending on options
+        # a selector would be cleaner, but I'm tryin somethin ok
+        filename = "efficient_sam_"
+
+        if tiny:
+            filename += "tiny_"
         else:
-            model_path = os.path.join(
-                CURRENT_DIRECTORY, "models", "efficient_sam_s_cpu.jit"
+            filename += "s_"
+
+        if device == "CUDA":
+            filename += "gpu.jit"
+        else:
+            filename += "cpu.jit"
+
+        if filename not in os.listdir(EFFICIENT_SAM_MODEL_PATH):
+            hf_hub_download(
+                repo_id=repo,
+                filename=filename,
+                local_dir=EFFICIENT_SAM_MODEL_PATH,
+                local_dir_use_symlinks=False,
             )
+        model_path = os.path.join(EFFICIENT_SAM_MODEL_PATH, filename)
 
         EFFICIENT_SAM_MODEL = torch.jit.load(model_path, map_location=DEVICE)
         EFFICIENT_SAM_MODEL.eval()

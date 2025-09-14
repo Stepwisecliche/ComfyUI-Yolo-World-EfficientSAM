@@ -8,11 +8,21 @@ As for immediate changes from the forked repo:
 
  * The inference package has been swapped with ultralytics. The loader will still download models on demand, but ultralytics has a larger collection of models to choose from without having to pay for them. 
 
- * Additionally, the node now supports loading predownloaded models from the `/models/ultralytics/yoloworld` folder if you don't want to have to rely on caching models whenever you rerun Comfy.
+ * Additionally, the YOLOWorld loader now supports loading predownloaded models from the `/models/ultralytics/yoloworld` folder if you don't want to have to rely on caching models whenever you rerun Comfy.
 
  * The code has been updated for the newest version of supervision which has changed the name of BoundingBoxAnnotator to BoxAnnotator.
 
-Next commit should have an autodownloader and comfyui/models folder for the EfficientSAM loader and then I will test everything to verify. 
+ * EfficientSAM Loader now autodownloads model on demand based on flags. 'tiny' flag is for if you want the tiny version of the model that is faster and smaller, but not as accurate. The loader checks if a model is predownloaded in comfyui/models/esam, so if you want to predownload the models, they can be placed there. The models the node is looking for are the .jit files at https://huggingface.co/yunyangx/EfficientSAM/tree/main.
+
+ * Why the .jit files? I don't know anything about the differences between the formats at this point in time so I'm going to err on the side of the version used by the original node.
+
+If you didn't read all that, just keep in mind that if you still want to download EfficientSAM models, the location has been changed to ComfyUI/models/esam, so new instructions are:
+
+## Installation
+1. cd custom_nodes
+2. git clone https://github.com/Stepwisecliche/ComfyUI-Yolo-World-EfficientSAM.git
+3. ~~From [EfficientSAM](https://huggingface.co/camenduru/YoloWorld-EfficientSAM/tree/main) download `efficient_sam_s_cpu.jit` and `efficient_sam_s_gpu.jit`. create folder `models` under `custom_nodes/ComfyUI-YoloWorld-EfficientSAM` put them into the `models` folder.~~
+4. install requirements
 
 ---
 
@@ -22,7 +32,7 @@ ComfyUI Yolo World EfficientSAM custom node,Based on [ZHO-ZHO-ZHO/ComfyUI-YoloWo
 ## Installation
 1. cd custom_nodes
 2. git clone https://github.com/ycyy/ComfyUI-Yolo-World-EfficientSAM.git
-3. From [EfficientSAM](https://huggingface.co/camenduru/YoloWorld-EfficientSAM/tree/main) download `efficient_sam_s_cpu.jit` and `efficient_sam_s_gpu.jit`. create folder `models` under `custom_nodes/ComfyUI-YoloWorld-EfficientSAM` put them into the `models` folder.
+3. ~~From [EfficientSAM](https://huggingface.co/camenduru/YoloWorld-EfficientSAM/tree/main) download `efficient_sam_s_cpu.jit` and `efficient_sam_s_gpu.jit`. create folder `models` under `custom_nodes/ComfyUI-YoloWorld-EfficientSAM` put them into the `models` folder.
 4. install requirements
 
 ## Note
