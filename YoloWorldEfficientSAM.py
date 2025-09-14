@@ -36,6 +36,7 @@ BOUNDING_BOX_ANNOTATOR = (
 )  # renamed from BoundingBoxAnnotator to BoxAnnotator in v0.26.0
 MASK_ANNOTATOR = sv.MaskAnnotator()
 LABEL_ANNOTATOR = sv.LabelAnnotator()
+DEFAULT_CATEGORIES = ""
 
 
 # Helpers to list local weights in YOLOWORLD_MODEL_PATH and merge with the hub list
@@ -43,6 +44,7 @@ def _list_local_yoloworld_models() -> list[str]:
     exts = (
         ".pt",
         ".ptl",
+        ".pth",
     )  # typical torch weight files; expand if you export others you want to load directly
     try:
         if os.path.isdir(YOLOWORLD_MODEL_PATH):
@@ -231,7 +233,9 @@ class YoloWorldEfficientSAM:
 
         model = yolo_world_model
         model.to(DEVICE)
-        model.set_classes(categories)
+        cats = categories.strip()
+        if cats:
+            model.set_classes(cats)
 
         for img in image:
             img = np.clip(255.0 * img.cpu().numpy().squeeze(), 0, 255).astype(np.uint8)
