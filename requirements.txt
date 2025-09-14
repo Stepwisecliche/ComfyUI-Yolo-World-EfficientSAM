@@ -1,4 +1,4 @@
-"huggingface-hub[hf-transfer]>=0.34.4",
-"opencv-contrib-python>=4.12.0.88",
-"supervision>=0.26.1",
-"ultralytics>=8.3.199",
+huggingface-hub[hf-transfer]
+opencv-contrib-python
+supervision>=0.26.0
+ultralytics>=8.2.0
